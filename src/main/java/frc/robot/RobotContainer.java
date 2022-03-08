@@ -7,24 +7,31 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+
 import frc.robot.commands.Auto;
 import frc.robot.commands.HighFire;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.LowFire;
 import frc.robot.commands.MedFire;
-
 import frc.robot.commands.Suck;
 import frc.robot.commands.Zuck;
 import frc.robot.commands.MegaZuck;
+import frc.robot.commands.Climb;
+import frc.robot.commands.ClimbSequence;
+import frc.robot.commands.subcommands.ClimbExtend;
+import frc.robot.commands.subcommands.ClimbRetract;
+
 import frc.robot.subsystems.Conveyer;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Gun;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Transfer;
+import frc.robot.subsystems.Climber;
+
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
@@ -40,6 +47,7 @@ public class RobotContainer {
   private final Gun m_Gun = new Gun();
   private final Drivebase m_Drivebase = new Drivebase();
   private final Transfer m_Transfer = new Transfer();
+  private final Climber m_climber = new Climber();
   
 
   
@@ -51,8 +59,9 @@ public class RobotContainer {
  private final LowFire m_lowFire = new LowFire(m_Conveyer, m_Transfer, m_Gun);
  private final Suck m_suck = new Suck(m_Intake, m_Conveyer, m_Transfer);
 
+ private final Climb m_climb = new Climb(m_climber);
+
  private final XboxController GUNNER = new XboxController(0);
- 
  public Joystick DRIVER = new Joystick(1);
 
  private final JoystickDrive m_joystickDrive = new JoystickDrive(m_Drivebase, DRIVER);
@@ -91,7 +100,7 @@ GBButton.whileHeld(new MedFire(m_Conveyer, m_Transfer, m_Gun));
 GAButton.whileHeld(new LowFire(m_Conveyer, m_Transfer, m_Gun));
 GStart.whileHeld(new Zuck(m_Intake));
 Gback.whileHeld(new MegaZuck(m_Intake, m_Gun, m_Transfer, m_Conveyer));
-
+GXButton.whileHeld(new Climb(m_climber));
 
 
 
